@@ -1,0 +1,14 @@
+{
+  "name": "resize",
+  "version": "0.0.1",
+  "description": "an react resize component",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "react": "^0.14.5",
+  },
+  "author": "helm168",
+  "license": "MIT"
+}
