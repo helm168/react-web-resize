@@ -5,30 +5,87 @@
 2 info using npm@3.5.1
 3 info using node@v4.2.1
 4 verbose publish [ '.' ]
-5 verbose stack Error: Failed to parse json
-5 verbose stack Trailing comma in object at 11:3
-5 verbose stack   },
-5 verbose stack   ^
-5 verbose stack     at parseError (/Users/helm/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/read-package-json/read-json.js:379:11)
-5 verbose stack     at parseJson (/Users/helm/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/read-package-json/read-json.js:68:23)
-5 verbose stack     at /Users/helm/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/read-package-json/read-json.js:48:5
-5 verbose stack     at /Users/helm/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:76:16
-5 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:380:3)
-6 verbose cwd /Users/helm/develop/study/github/helm168/resize
-7 error Darwin 14.5.0
-8 error argv "/Users/helm/.nvm/versions/node/v4.2.1/bin/node" "/Users/helm/.nvm/versions/node/v4.2.1/bin/npm" "publish"
-9 error node v4.2.1
-10 error npm  v3.5.1
-11 error file /Users/helm/develop/study/github/helm168/resize/package.json
-12 error code EJSONPARSE
-13 error Failed to parse json
-13 error Trailing comma in object at 11:3
-13 error   },
-13 error   ^
-14 error File: /Users/helm/develop/study/github/helm168/resize/package.json
-15 error Failed to parse package.json data.
-15 error package.json must be actual JSON, not just JavaScript.
-15 error
-15 error This is not a bug in npm.
-15 error Tell the package author to fix their package.json file. JSON.parse
-16 verbose exit [ 1, true ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/helm/develop/study/github/helm168/resize',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/helm/.npm/resize/0.0.1/package.tgz not in flight; packing
+9 info lifecycle resize@0.0.1~prepublish: resize@0.0.1
+10 silly lifecycle resize@0.0.1~prepublish: no script for prepublish, continuing
+11 verbose tar pack [ '/Users/helm/.npm/resize/0.0.1/package.tgz',
+11 verbose tar pack   '/Users/helm/develop/study/github/helm168/resize' ]
+12 verbose tarball /Users/helm/.npm/resize/0.0.1/package.tgz
+13 verbose folder /Users/helm/develop/study/github/helm168/resize
+14 verbose addLocalTarball adding from inside cache /Users/helm/.npm/resize/0.0.1/package.tgz
+15 silly cache afterAdd resize@0.0.1
+16 verbose afterAdd /Users/helm/.npm/resize/0.0.1/package/package.json not in flight; writing
+17 verbose afterAdd /Users/helm/.npm/resize/0.0.1/package/package.json written
+18 silly publish { name: 'resize',
+18 silly publish   version: '0.0.1',
+18 silly publish   description: 'an react resize component',
+18 silly publish   main: 'index.js',
+18 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+18 silly publish   peerDependencies: { react: '^0.14.5' },
+18 silly publish   author: { name: 'helm168' },
+18 silly publish   license: 'MIT',
+18 silly publish   readme: '# react-resize\nan react resize component\n',
+18 silly publish   readmeFilename: 'README.md',
+18 silly publish   gitHead: 'c19d6ce23dfe13b4a4ad3135d83fb1f0916138a7',
+18 silly publish   _id: 'resize@0.0.1',
+18 silly publish   _shasum: '971e924fc4e0f20ef242e0e56c81de53ead24aa9',
+18 silly publish   _from: '.' }
+19 verbose getPublishConfig undefined
+20 silly mapToRegistry name resize
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/resize
+24 verbose publish registryBase https://registry.npmjs.org/
+25 silly publish uploading /Users/helm/.npm/resize/0.0.1/package.tgz
+26 verbose request uri https://registry.npmjs.org/resize
+27 verbose request sending authorization for write operation
+28 info attempt registry request try #1 at 14:26:32
+29 verbose request using bearer token for auth
+30 verbose request id 762e8d72efe2af99
+31 http request PUT https://registry.npmjs.org/resize
+32 http 403 https://registry.npmjs.org/resize
+33 verbose headers { 'content-type': 'application/json',
+33 verbose headers   'cache-control': 'max-age=300',
+33 verbose headers   'content-length': '98',
+33 verbose headers   'accept-ranges': 'bytes',
+33 verbose headers   date: 'Fri, 01 Jan 2016 06:26:35 GMT',
+33 verbose headers   via: '1.1 varnish',
+33 verbose headers   connection: 'keep-alive',
+33 verbose headers   'x-served-by': 'cache-itm7426-ITM',
+33 verbose headers   'x-cache': 'MISS',
+33 verbose headers   'x-cache-hits': '0',
+33 verbose headers   'x-timer': 'S1451629594.649667,VS0,VE563' }
+34 verbose request invalidating /Users/helm/.npm/registry.npmjs.org/resize on PUT
+35 error publish Failed PUT 403
+36 verbose stack Error: You do not have permission to publish 'resize'. Are you logged in as the correct user? : resize
+36 verbose stack     at makeError (/Users/helm/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+36 verbose stack     at CachingRegistryClient.<anonymous> (/Users/helm/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+36 verbose stack     at Request._callback (/Users/helm/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+36 verbose stack     at Request.self.callback (/Users/helm/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/request/request.js:198:22)
+36 verbose stack     at emitTwo (events.js:87:13)
+36 verbose stack     at Request.emit (events.js:172:7)
+36 verbose stack     at Request.<anonymous> (/Users/helm/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/request/request.js:1082:10)
+36 verbose stack     at emitOne (events.js:82:20)
+36 verbose stack     at Request.emit (events.js:169:7)
+36 verbose stack     at IncomingMessage.<anonymous> (/Users/helm/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/request/request.js:1009:12)
+37 verbose statusCode 403
+38 verbose pkgid resize
+39 verbose cwd /Users/helm/develop/study/github/helm168/resize
+40 error Darwin 14.5.0
+41 error argv "/Users/helm/.nvm/versions/node/v4.2.1/bin/node" "/Users/helm/.nvm/versions/node/v4.2.1/bin/npm" "publish"
+42 error node v4.2.1
+43 error npm  v3.5.1
+44 error code E403
+45 error You do not have permission to publish 'resize'. Are you logged in as the correct user? : resize
+46 error If you need help, you may report this error at:
+46 error     <https://github.com/npm/npm/issues>
+47 verbose exit [ 1, true ]
