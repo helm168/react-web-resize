@@ -1,6 +1,6 @@
 {
   "name": "react-web-resize",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "an react resize component",
   "main": "dist/index.js",
   "scripts": {
