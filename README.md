@@ -31,5 +31,4 @@ export default Scroller;
 ```
 
 ### Note
-1. your project needs babel to support es6 syntax.
-2. wrapper's css position need to no static. ```relative``` or ```absolute```
+1. wrapper's css position need to no static. ```relative``` or ```absolute```
