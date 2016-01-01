@@ -1,7 +1,7 @@
 # react-web-resize
 an react resize component can detect dom resize.
 
-###Example
+### Example
 ```npm i react-web-resize -S```
 ```
 import React  from 'react';
@@ -30,6 +30,6 @@ let styles = {
 export default Scroller;
 ```
 
-###Note
+### Note
 1. your project needs babel to support es6 syntax.
 2. wrapper's css position need to no static. ```relative``` or ```absolute```
