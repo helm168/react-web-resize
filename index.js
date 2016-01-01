@@ -6,10 +6,10 @@ let {
 } = React;
 
 class Resize extends Component {
-    propTypes: {
+    static propTypes = {
         onExpand: React.PropTypes.func,
         onShrink: React.PropTypes.func,
-    },
+    }
 
     constructor(props) {
         super(props);
