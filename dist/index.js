@@ -1,10 +1,10 @@
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
@@ -13,6 +13,10 @@ var _react2 = _interopRequireDefault(_react);
 var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _proptypes = require('proptypes');
+
+var _proptypes2 = _interopRequireDefault(_proptypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24,13 +28,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var Component = _react2.default.Component;
 
-var Resize = (function (_Component) {
+var Resize = function (_Component) {
     _inherits(Resize, _Component);
 
     function Resize(props) {
         _classCallCheck(this, Resize);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Resize).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Resize.__proto__ || Object.getPrototypeOf(Resize)).call(this, props));
 
         _this.state = {
             domWidth: 0,
@@ -102,12 +106,13 @@ var Resize = (function (_Component) {
     }]);
 
     return Resize;
-})(Component);
+}(Component);
 
 Resize.propTypes = {
-    onExpand: _react2.default.PropTypes.func,
-    onShrink: _react2.default.PropTypes.func
+    onExpand: _proptypes2.default.func,
+    onShrink: _proptypes2.default.func
 };
+
 
 var styles = {
     wrapper: {

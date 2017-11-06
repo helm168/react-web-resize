@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'proptypes';
 
 let {
     Component,
@@ -7,8 +8,8 @@ let {
 
 class Resize extends Component {
     static propTypes = {
-        onExpand: React.PropTypes.func,
-        onShrink: React.PropTypes.func,
+        onExpand: PropTypes.func,
+        onShrink: PropTypes.func,
     }
 
     constructor(props) {
@@ -32,7 +33,7 @@ class Resize extends Component {
             this.props.onShrink();
         }
     }
-    
+
     _resize() {
         var dom = ReactDOM.findDOMNode(this);
         var domWidth = dom.clientWidth;
