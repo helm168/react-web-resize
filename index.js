@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+const supportResizeObserver = typeof ResizeObserver !== 'undefined';
+
 const styles = {
   wrapper: {
     position: 'absolute',
     width: '100%',
     height: '100%',
-    zIndex: -1
+    zIndex: -1,
+    top: 0
   },
 
   resizeWrapper: {
@@ -36,14 +39,44 @@ class Resize extends Component {
   }
 
   componentDidMount() {
-    this._resize();
+    if (supportResizeObserver) {
+      this._resizeObserver = new ResizeObserver((entries) => {
+        entries.forEach((entry) => {
+          this._onResize();
+        });
+      });
+      this._resizeObserver.observe(this.refResizeNode.parentNode);
+    } else {
+      this._resize();
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.domWidth !== this.state.domWidth) {
+      return true;
+    }
+    return false;
   }
 
   componentDidUpdate() {
-    this.refExpand.scrollTop = this.refExpand.scrollHeight;
-    this.refExpand.scrollLeft = this.refExpand.scrollWidth;
-    this.refShrink.scrollTop = this.refShrink.scrollHeight;
-    this.refShrink.scrollLeft = this.refShrink.scrollWidth;
+    if (!supportResizeObserver) {
+      this.refExpand.scrollTop = this.refExpand.scrollHeight;
+      this.refExpand.scrollLeft = this.refExpand.scrollWidth;
+      this.refShrink.scrollTop = this.refShrink.scrollHeight;
+      this.refShrink.scrollLeft = this.refShrink.scrollWidth;
+    }
+  }
+
+  componentWillUnmout() {
+    if (this._resizeObserver) {
+      this._resizeObserver.disconnect();
+    }
+  }
+
+  _onResize() {
+    if (this.props.onResize) {
+      this.props.onResize();
+    }
   }
 
   _onExpand() {
@@ -51,6 +84,7 @@ class Resize extends Component {
     if (this.props.onExpand) {
       this.props.onExpand();
     }
+    this._onResize();
   }
 
   _onShrink() {
@@ -58,6 +92,7 @@ class Resize extends Component {
     if (this.props.onShrink) {
       this.props.onShrink();
     }
+    this._onResize();
   }
 
   _resize() {
@@ -70,7 +105,14 @@ class Resize extends Component {
     });
   }
 
-  render() {
+  renderResizeEl() {
+    return (
+      <div ref={(node) => { this.refResizeNode = node; }}>
+      </div>
+    );
+  }
+
+  renderPolyfillEl() {
     const { domWidth, domHeight } = this.state;
     return (
       <div style={styles.wrapper} ref={(node) => { this.refNode = node; }}>
@@ -88,6 +130,13 @@ class Resize extends Component {
         </div>
       </div>
     );
+  }
+
+  render() {
+    if (supportResizeObserver) {
+      return this.renderResizeEl();
+    }
+    return this.renderPolyfillEl();
   }
 }
 

@@ -24,12 +24,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var supportResizeObserver = typeof ResizeObserver !== 'undefined';
+
 var styles = {
   wrapper: {
     position: 'absolute',
     width: '100%',
     height: '100%',
-    zIndex: -1
+    zIndex: -1,
+    top: 0
   },
 
   resizeWrapper: {
@@ -62,15 +65,50 @@ var Resize = function (_Component) {
   _createClass(Resize, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this._resize();
+      var _this2 = this;
+
+      if (supportResizeObserver) {
+        this._resizeObserver = new ResizeObserver(function (entries) {
+          entries.forEach(function (entry) {
+            _this2._onResize();
+          });
+        });
+        this._resizeObserver.observe(this.refResizeNode.parentNode);
+      } else {
+        this._resize();
+      }
+    }
+  }, {
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      if (nextState.domWidth !== this.state.domWidth) {
+        return true;
+      }
+      return false;
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
-      this.refExpand.scrollTop = this.refExpand.scrollHeight;
-      this.refExpand.scrollLeft = this.refExpand.scrollWidth;
-      this.refShrink.scrollTop = this.refShrink.scrollHeight;
-      this.refShrink.scrollLeft = this.refShrink.scrollWidth;
+      if (!supportResizeObserver) {
+        this.refExpand.scrollTop = this.refExpand.scrollHeight;
+        this.refExpand.scrollLeft = this.refExpand.scrollWidth;
+        this.refShrink.scrollTop = this.refShrink.scrollHeight;
+        this.refShrink.scrollLeft = this.refShrink.scrollWidth;
+      }
+    }
+  }, {
+    key: 'componentWillUnmout',
+    value: function componentWillUnmout() {
+      if (this._resizeObserver) {
+        this._resizeObserver.disconnect();
+      }
+    }
+  }, {
+    key: '_onResize',
+    value: function _onResize() {
+      if (this.props.onResize) {
+        this.props.onResize();
+      }
     }
   }, {
     key: '_onExpand',
@@ -79,6 +117,7 @@ var Resize = function (_Component) {
       if (this.props.onExpand) {
         this.props.onExpand();
       }
+      this._onResize();
     }
   }, {
     key: '_onShrink',
@@ -87,6 +126,7 @@ var Resize = function (_Component) {
       if (this.props.onShrink) {
         this.props.onShrink();
       }
+      this._onResize();
     }
   }, {
     key: '_resize',
@@ -100,9 +140,18 @@ var Resize = function (_Component) {
       });
     }
   }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this,
+    key: 'renderResizeEl',
+    value: function renderResizeEl() {
+      var _this3 = this;
+
+      return _react2.default.createElement('div', { ref: function ref(node) {
+          _this3.refResizeNode = node;
+        } });
+    }
+  }, {
+    key: 'renderPolyfillEl',
+    value: function renderPolyfillEl() {
+      var _this4 = this,
           _React$createElement;
 
       var _state = this.state,
@@ -112,13 +161,13 @@ var Resize = function (_Component) {
       return _react2.default.createElement(
         'div',
         { style: styles.wrapper, ref: function ref(node) {
-            _this2.refNode = node;
+            _this4.refNode = node;
           } },
         _react2.default.createElement(
           'div',
           { style: styles.resizeWrapper,
             ref: function ref(node) {
-              _this2.refExpand = node;
+              _this4.refExpand = node;
             },
             onScroll: this._onExpand.bind(this) },
           _react2.default.createElement('div', { style: { width: domWidth, height: domHeight } })
@@ -127,11 +176,19 @@ var Resize = function (_Component) {
           'div',
           (_React$createElement = { ref: 'shrink', style: styles.resizeWrapper
           }, _defineProperty(_React$createElement, 'ref', function ref(node) {
-            _this2.refShrink = node;
+            _this4.refShrink = node;
           }), _defineProperty(_React$createElement, 'onScroll', this._onShrink.bind(this)), _React$createElement),
           _react2.default.createElement('div', { style: styles.shrink })
         )
       );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      if (supportResizeObserver) {
+        return this.renderResizeEl();
+      }
+      return this.renderPolyfillEl();
     }
   }]);
 
