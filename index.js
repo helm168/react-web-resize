@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 const supportResizeObserver = typeof ResizeObserver !== 'undefined';
 
 const styles = {
+  container: {
+    position: 'relative',
+    width: '100%',
+    height: '100%'
+  },
+
   wrapper: {
     position: 'absolute',
     width: '100%',
@@ -42,20 +49,19 @@ class Resize extends Component {
     if (supportResizeObserver) {
       this._resizeObserver = new ResizeObserver((entries) => {
         entries.forEach((entry) => {
-          this._onResize();
+          const { target } = entry;
+          // 修复某些case下target不在DOM中， 触发的width/height都为0
+          if (!target.parentElement) return;
+          this._onResize({ height: target.offsetHeight, width: target.offsetWidth });
         });
       });
-      this._resizeObserver.observe(this.refResizeNode.parentNode);
+      const resizeNode = ReactDOM.findDOMNode(this);
+      this._resizeNode = resizeNode;
+      if (!resizeNode) return;
+      this._resizeObserver.observe(resizeNode);
     } else {
       this._resize();
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.domWidth !== this.state.domWidth) {
-      return true;
-    }
-    return false;
   }
 
   componentDidUpdate() {
@@ -67,49 +73,55 @@ class Resize extends Component {
     }
   }
 
-  componentWillUnmout() {
+  componentWillUnmount() {
     if (this._resizeObserver) {
       this._resizeObserver.disconnect();
+      this._resizeObserver = null;
     }
   }
 
-  _onResize() {
+  _onResize(rect) {
     if (this.props.onResize) {
-      this.props.onResize();
+      this.props.onResize(rect);
     }
   }
 
   _onExpand() {
-    this._resize();
+    const domRect = this._getRect();
+    this._resize(domRect);
     if (this.props.onExpand) {
-      this.props.onExpand();
+      this.props.onExpand(domRect);
     }
-    this._onResize();
+    this._onResize(domRect);
   }
 
   _onShrink() {
-    this._resize();
+    const domRect = this._getRect();
+    this._resize(domRect);
     if (this.props.onShrink) {
-      this.props.onShrink();
+      this.props.onShrink(domRect);
     }
-    this._onResize();
+    this._onResize(domRect);
   }
 
-  _resize() {
-    const dom = this.refNode;
-    const domWidth = dom.clientWidth;
-    const domHeight = dom.clientHeight;
+  _resize(rect) {
+    rect = rect || this._getRect();
+    const domWidth = rect.width;
+    const domHeight = rect.height;
     this.setState({
       domWidth: domWidth + 1,
       domHeight: domHeight + 1
     });
   }
 
+  _getRect() {
+    const dom = this.refNode;
+    return dom.getBoundingClientRect();
+  }
+
   renderResizeEl() {
-    return (
-      <div ref={(node) => { this.refResizeNode = node; }}>
-      </div>
-    );
+    const children = React.Children.only(this.props.children);
+    return children;
   }
 
   renderPolyfillEl() {
@@ -132,11 +144,20 @@ class Resize extends Component {
     );
   }
 
+  renderResizeContainer() {
+    return (
+      <div style={styles.container}>
+        { this.props.children }
+        { this.renderPolyfillEl() }
+      </div>
+    );
+  }
+
   render() {
     if (supportResizeObserver) {
       return this.renderResizeEl();
     }
-    return this.renderPolyfillEl();
+    return this.renderResizeContainer();
   }
 }
 
