@@ -58,6 +58,7 @@ class Resize extends Component {
       const resizeNode = ReactDOM.findDOMNode(this);
       this._resizeNode = resizeNode;
       if (!resizeNode) return;
+      this._onResize({ height: this._resizeNode.offsetHeight, width: this._resizeNode.offsetWidth });
       this._resizeObserver.observe(resizeNode);
     } else {
       this._resize();
